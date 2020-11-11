@@ -11,5 +11,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Chris Struck",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisblammo123/discord-roles-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chrisblammo123/discord-roles-bot/issues"
+  },
+  "homepage": "https://github.com/chrisblammo123/discord-roles-bot#readme"
 }

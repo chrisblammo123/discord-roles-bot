@@ -52,7 +52,7 @@ client.on('message', (message) => {
 				break;
 			case 'github':
 			case 'repo':
-				message.channel.send('https://github.com/chrisblammo123/CSGO-Server-Stats-Testing')
+				message.channel.send('https://github.com/chrisblammo123/discord-roles-bot')
 					.then(console.log)
 					.catch(console.error);
 				break;
