@@ -1,0 +1,15 @@
+{
+  "name": "discord-roles-bot",
+  "version": "1.0.0",
+  "description": "Discord bot that gives set server roles upon reaction to a message.",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^12.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Struck",
+  "license": "MIT"
+}
