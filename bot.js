@@ -5,7 +5,7 @@
 
 const Discord = require('discord.js');        // Discord bot API
 const client = new Discord.Client({						// Discord bot client
-	partials: ['MESSAGE']												// Allows for the bot to read messages that are not cached
+	partials: ['MESSAGE', 'REACTION']												// Allows for the bot to read messages that are not cached
 });
 
 
@@ -78,15 +78,73 @@ client.on('message', (message) => {
 
 
 
+client.on('messageReactionAdd', async (reaction, user) => {
+	// Function that handles giving the user the selected role
+	let giveRole = async () => {
+		// Gets information from the reaction event trigger
+		let emojiName = reaction.emoji.name;									// TODO: allow it to see multiple emojis, either using JSON or array (maybe something else?)
+		let role = reaction.message.guild.roles.cache.get(roleList.Jackbox);
+		let member = reaction.message.guild.members.cache.find(member => member.id == user.id);
 
+		console.log(`${emojiName}\n${role.name}\n${member.id}`)
 
-client.on('messageReactionRemove', (reaction, user) => {
-	console.log(`REMOVED:\nreaction: ${reaction} and user: ${user}`);
+		try
+		{
+			if (role && member)
+			{
+				console.log('Role and member found.')
+				await member.roles.add(role);
+			}
+		}
+		catch (err)
+		{
+			console.error(err);
+		}
+	}
+
+	// Checks if the message is a partial (i.e. it has not been cached)
+	if (reaction.message.partial)
+	{
+		try
+		{
+			let msg = await reaction.message.fetch();
+			//console.log(msg.id);
+			if (msg.id == channelInfo.messageID)
+			{
+				console.log('Cached message.');
+				giveRole();
+			}
+		}
+		catch (err)
+		{
+			console.error(err);
+		}
+	}
+	else
+	{
+		console.log('Not a parital.');
+		if (reaction.message.id == channelInfo.messageID)
+		{
+			console.log('yep');
+			giveRole();
+		}
+	}
+	
+
 });
 
-client.on('messageReactionAdd', (reaction, user) => {
-	console.log(`ADDED:\nreaction: ${reaction} and user: ${user}`);
-});
+
+
+
+
+
+// client.on('messageReactionRemove', (reaction, user) => {
+// 	console.log(`REMOVED:\nreaction: ${reaction} and user: ${user}`);
+// });
+
+// client.on('messageReactionAdd', (reaction, user) => {
+// 	console.log(`ADDED:\nreaction: ${reaction} and user: ${user}`);
+// });
 
 
 
