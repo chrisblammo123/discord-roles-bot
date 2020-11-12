@@ -3,15 +3,24 @@
  * https://discordapp.com/oauth2/authorize?client_id=507957137465540629&scope=bot&permissions=470019159
  */
 
+// Variables
+
+// Node Modules and Constructors
+
 const Discord = require('discord.js');        // Discord bot API
 const client = new Discord.Client({						// Discord bot client
-	partials: ['MESSAGE', 'REACTION']												// Allows for the bot to read messages that are not cached
+	partials: ['MESSAGE', 'REACTION']						// Allows for the bot to read messages that are not cached
 });
 
+// Local File Includes
 
 const config = require('./config.json');      //Data relating to the discord bot
 const channelInfo = require('./channels.json');      //Data relating to the discord bot
 const roleList = require('./roles.json');      //Data relating to the discord bot
+
+
+
+// Event Listeners
 
 
 // Initialization
@@ -24,7 +33,10 @@ client.on('ready', () => {
 	console.log('Connected as ' + client.user.tag + '\n');
 });
 
+
+
 // Main
+
 
 //Triggered when the someone sends a message in a server that the bot is active in.
 client.on('message', (message) => {
@@ -45,7 +57,7 @@ client.on('message', (message) => {
 
 		switch (cmd)
 		{
-      case "test":
+			case "test":
 			case 'ping':
 				message.author.send('Pong!')
 					.then(console.log)
@@ -58,15 +70,15 @@ client.on('message', (message) => {
 					.catch(console.error);
 				break;
 			case 'info':
-      case 'help':
+			case 'help':
 				message.author.send('React to the given messages for your roles. For more info, visit the github repo, or view the role list')
 					.then(console.log)
 					.catch(console.error);
-        break;
-      case "role":
-      case "roles":
+				break;
+			case "role":
+			case "roles":
 				// TODO: Display role list JSON
-        break;
+				break;
 			default:
 				message.channel.send(`Invalid command, try ${config.prefix}info|help or check the repo ${config.prefix}github|repo`)
 					.then(console.log)
@@ -76,8 +88,7 @@ client.on('message', (message) => {
 	}
 });
 
-
-
+// Triggered when a reaction is added to a message. 
 client.on('messageReactionAdd', async (reaction, user) => {
 	// Function that handles giving the user the selected role
 	let giveRole = async () => {
@@ -130,6 +141,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 	}
 });
 
+// Triggered when a reaction is removed from a message.
 client.on('messageReactionRemove', async (reaction, user) => {
 	// Function that handles taking the specified role from the user
 	let takeRole = async () => {
@@ -181,18 +193,6 @@ client.on('messageReactionRemove', async (reaction, user) => {
 		}
 	}
 });
-
-
-
-
-// client.on('messageReactionRemove', (reaction, user) => {
-// 	console.log(`REMOVED:\nreaction: ${reaction} and user: ${user}`);
-// });
-
-// client.on('messageReactionAdd', (reaction, user) => {
-// 	console.log(`ADDED:\nreaction: ${reaction} and user: ${user}`);
-// });
-
 
 
 
