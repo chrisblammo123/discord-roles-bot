@@ -100,7 +100,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 		{
 			console.error(err);
 		}
-	}
+	};
 
 	// Checks if the message is a partial (i.e. it has not been cached)
 	if (reaction.message.partial)
@@ -108,7 +108,6 @@ client.on('messageReactionAdd', async (reaction, user) => {
 		try
 		{
 			let msg = await reaction.message.fetch();
-			//console.log(msg.id);
 			if (msg.id == channelInfo.messageID)
 			{
 				console.log('Cached message.');
@@ -129,11 +128,59 @@ client.on('messageReactionAdd', async (reaction, user) => {
 			giveRole();
 		}
 	}
-	
-
 });
 
+client.on('messageReactionRemove', async (reaction, user) => {
+	// Function that handles taking the specified role from the user
+	let takeRole = async () => {
+		// Gets information from the reaction event trigger
+		let emojiName = reaction.emoji.name;									// TODO: allow it to see multiple emojis, either using JSON or array (maybe something else?)
+		let role = reaction.message.guild.roles.cache.get(roleList.Jackbox);
+		let member = reaction.message.guild.members.cache.find(member => member.id == user.id);
 
+		console.log(`${emojiName}\n${role.name}\n${member.id}`)
+
+		try
+		{
+			if (role && member)
+			{
+				console.log('Role and member found.')
+				await member.roles.remove(role);
+			}
+		}
+		catch (err)
+		{
+			console.error(err);
+		}
+	};
+
+	// Checks if the message is a partial (i.e. it has not been cached)
+	if (reaction.message.partial)
+	{
+		try
+		{
+			let msg = await reaction.message.fetch();
+			if (msg.id == channelInfo.messageID)
+			{
+				console.log('Cached message.');
+				takeRole();
+			}
+		}
+		catch (err)
+		{
+			console.error(err);
+		}
+	}
+	else
+	{
+		console.log('Not a parital.');
+		if (reaction.message.id == channelInfo.messageID)
+		{
+			console.log('yepper');
+			takeRole();
+		}
+	}
+});
 
 
 
