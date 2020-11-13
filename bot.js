@@ -11,7 +11,7 @@ const client = new Discord.Client({						// Discord bot client
 
 const config = require('./config.json');      //Data relating to the discord bot
 const channelInfo = require('./channels.json');      //Data relating to the discord bot
-const roleList = require('./roles.json');      //Data relating to the discord bot
+const roleInfo = require('./roles.json');      //Data relating to the discord bot
 
 
 // Initialization
@@ -83,10 +83,17 @@ client.on('messageReactionAdd', async (reaction, user) => {
 	let giveRole = async () => {
 		// Gets information from the reaction event trigger
 		let emojiName = reaction.emoji.name;									// TODO: allow it to see multiple emojis, either using JSON or array (maybe something else?)
-		let role = reaction.message.guild.roles.cache.get(roleList.Jackbox);
+		let roleIndex = roleInfo.emojiName.indexOf(emojiName);
+		
+		console.log("emoji name test: " + emojiName + "\nindex: " + roleIndex);
+		
+		// Checks if the returned emoji was found inside the role list (-1 means it was not found)
+		if (roleIndex == -1) return;
+
+		let role = reaction.message.guild.roles.cache.get(roleInfo.roleID[roleIndex]);
 		let member = reaction.message.guild.members.cache.find(member => member.id == user.id);
 
-		console.log(`${emojiName}\n${role.name}\n${member.id}`)
+		console.log(`${emojiName}\n${role.name}\n${member.id}`);
 
 		try
 		{
@@ -135,7 +142,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
 	let takeRole = async () => {
 		// Gets information from the reaction event trigger
 		let emojiName = reaction.emoji.name;									// TODO: allow it to see multiple emojis, either using JSON or array (maybe something else?)
-		let role = reaction.message.guild.roles.cache.get(roleList.Jackbox);
+		let role = reaction.message.guild.roles.cache.get(roleInfo.Jackbox);
 		let member = reaction.message.guild.members.cache.find(member => member.id == user.id);
 
 		console.log(`${emojiName}\n${role.name}\n${member.id}`)
